@@ -18,15 +18,11 @@ resource "aws_lb_target_group" "tg" {
   vpc_id   = aws_vpc.devops_vpc.id
 }
 
-resource "aws_lb_target_group_attachment" "t1" {
-  target_group_arn = aws_lb_target_group.tg.arn
-  target_id        = aws_instance.nginx1.id
-  port             = 80
-}
+resource "aws_lb_target_group_attachment" "tg_attach" {
+  for_each = aws_instance.nginx
 
-resource "aws_lb_target_group_attachment" "t2" {
   target_group_arn = aws_lb_target_group.tg.arn
-  target_id        = aws_instance.nginx2.id
+  target_id        = each.value.id
   port             = 80
 }
 
