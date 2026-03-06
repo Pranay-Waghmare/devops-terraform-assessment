@@ -4,8 +4,16 @@ set -e
 apt-get update -y
 apt-get install -y nginx
 
-INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
-AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
+# Get IMDSv2 token
+TOKEN=$(curl -X PUT "http://169.254.169.254/latest/api/token" \
+-H "X-aws-ec2-metadata-token-ttl-seconds: 21600")
+
+# Fetch metadata
+INSTANCE_ID=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s \
+http://169.254.169.254/latest/meta-data/instance-id)
+
+AZ=$(curl -H "X-aws-ec2-metadata-token: $TOKEN" -s \
+http://169.254.169.254/latest/meta-data/placement/availability-zone)
 
 cat <<EOF > /var/www/html/index.html
 <!DOCTYPE html>
