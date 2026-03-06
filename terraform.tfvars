@@ -10,4 +10,4 @@ private_subnet_2_cidr = "10.0.4.0/24"
 
 instance_type = "t3.micro"
 
-ami_id = "ami-051a31ab2f4d498f5"
+ami_id = "ami-019715e0d74f695be"
