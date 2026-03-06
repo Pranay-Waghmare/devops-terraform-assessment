@@ -1,10 +1,8 @@
 #!/bin/bash
+set -e
 
 apt-get update -y
 apt-get install -y nginx
-
-systemctl start nginx
-systemctl enable nginx
 
 INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
 AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
@@ -24,3 +22,6 @@ cat <<EOF > /var/www/html/index.html
 </body>
 </html>
 EOF
+
+systemctl enable nginx
+systemctl restart nginx
