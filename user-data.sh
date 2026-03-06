@@ -1,15 +1,15 @@
 #!/bin/bash
 
-yum update -y
-yum install nginx -y
+apt update -y
+apt install nginx -y
 
 systemctl start nginx
 systemctl enable nginx
 
-INSTANCE_ID=$(curl http://169.254.169.254/latest/meta-data/instance-id)
-AZ=$(curl http://169.254.169.254/latest/meta-data/placement/availability-zone)
+INSTANCE_ID=$(curl -s http://169.254.169.254/latest/meta-data/instance-id)
+AZ=$(curl -s http://169.254.169.254/latest/meta-data/placement/availability-zone)
 
-cat <<EOF > /usr/share/nginx/html/index.html
+cat <<EOF > /var/www/html/index.html
 <!DOCTYPE html>
 <html>
 <head>
